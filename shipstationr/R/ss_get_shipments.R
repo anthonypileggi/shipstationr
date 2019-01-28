@@ -15,8 +15,8 @@ ss_get_shipments <- function(order_number = NULL, start_date = Sys.Date() - 1, e
     pg <- pg + 1
     x <- ss_api("shipments",
         orderNumber = order_number,
-        createDateStart = start_date,
-        createDateEnd = end_date,
+        createDateStart = paste(start_date - 1, "21:00:00"),     # TODO: adjust start/end_date so align with {local} timezone
+        createDateEnd = paste(end_date, "20:59:59"),
         pageSize = 500,
         page = pg
       )
@@ -28,20 +28,8 @@ ss_get_shipments <- function(order_number = NULL, start_date = Sys.Date() - 1, e
   }
   
   # clean-up api response
-  purrr::map_df(
-    out,
-    function(r) {
-      vars <- names(r)[purrr::map_lgl(r, ~length(.x) == 1)]        # TODO: this ignores entries with > 1 length (e.g., multiple suppliers)
-      tmp <- tibble::as_tibble(r[vars])
-      for (v in names(r)[purrr::map_lgl(r, is.list)] ) {   # format list objects as tibbles
-        vv <- names(r[[v]])[purrr::map_lgl(r[[v]], ~length(.x) == 1)]
-        tmp[[v]] <- list(dplyr::as_tibble(r[[v]][vv]))
-      }
-      tmp
-    }
-  ) %>%
   dplyr::mutate(
-    #ss_parse_response(out),
+    ss_parse_response(out),
     createDate = ss_parse_datetime(createDate),
     #voidDate = as.POSIXct(strptime(voidDate, "%Y-%m-%dT%H:%M:%OS")),
     shipDate = as.Date(shipDate)
