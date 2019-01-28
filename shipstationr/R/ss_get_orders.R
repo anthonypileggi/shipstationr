@@ -5,30 +5,26 @@
 #' @export
 ss_get_orders <- function(order_number = NULL, start_date = Sys.Date() - 1, end_date = Sys.Date()) {
   
-  # TODO: adjust start/end_date so align with {local} timezone
-  my_json <- list(
-    orderNumber = order_number,
-    orderDateStart = paste(start_date - 1, "21:00:00"),
-    orderDateEnd = paste(end_date, "20:59:59"),
-    pageSize = 500,
-    page = 0
-  )
+  if (!is.null(order_number))
+    start_date <- end_date <- NULL
   
   # query api, iterating over all pages
   go <- TRUE
+  pg <- 0
   out <- list()
   while (go) {
-    my_json$page <- my_json$page + 1
-    x <- httr::GET(
-      "https://ssapi.shipstation.com/orders",
-      httr::authenticate(Sys.getenv("SHIPSTATION_API_KEY"), Sys.getenv("SHIPSTATION_API_SECRET")),
-      query = my_json
+    pg <- pg + 1
+    x <- ss_api("orders",
+      orderNumber = order_number,
+      createDateStart = paste(start_date - 1, "21:00:00"),     # TODO: adjust start/end_date so align with {local} timezone
+      createDateEnd = paste(end_date, "20:59:59"),
+      pageSize = 500,
+      page = pg
     )
-    xx <- httr::content(x)
-    out <- c(out, xx$orders)
-    if (xx$page > 1)
-      message("Collecting page ", xx$page, "/", xx$pages)
-    if (xx$page >= xx$pages)
+    out <- c(out, x$orders)
+    if (x$page > 1)
+      message("Collecting page ", x$page, "/", x$pages)
+    if (x$page >= x$pages)
       go <- FALSE
   }
   
