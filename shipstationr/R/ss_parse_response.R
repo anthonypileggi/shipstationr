@@ -6,12 +6,15 @@ ss_parse_response <- function(response) {
   purrr::map_df(
     response,
     function(r) {
-      vars <- names(r)[purrr::map_lgl(r, ~length(.x) == 1)]        # TODO: this ignores entries with > 1 length (e.g., multiple suppliers)
+      #vars <- names(r)[purrr::map_lgl(r, ~length(.x) == 1)]        # TODO: this ignores entries with > 1 length (e.g., multiple suppliers)
+      vars <- names(r)[purrr::map_lgl(r, ~!is.list(.x) & !is.null(.x))]
       tmp <- tibble::as_tibble(r[vars])
       for (v in names(r)[purrr::map_lgl(r, is.list)] ) {   # format list objects as tibbles
         vv <- names(r[[v]])[purrr::map_lgl(r[[v]], ~length(.x) == 1)]
         tmp[[v]] <- list(dplyr::as_tibble(r[[v]][vv]))
       }
+      if ("items" %in% names(r))
+        tmp[["items"]] <- list(purrr::map_df(r[["items"]], purrr::flatten))
       tmp
     }
   )
