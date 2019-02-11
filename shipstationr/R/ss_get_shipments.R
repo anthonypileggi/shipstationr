@@ -27,6 +27,11 @@ ss_get_shipments <- function(order_number = NULL, start_date = Sys.Date() - 1, e
       go <- FALSE
   }
   
+  if (length(out) == 0) {
+    message("No record found")
+    return(NULL)
+  }
+  
   # clean-up api response
   dplyr::mutate(
     ss_parse_response(out),
