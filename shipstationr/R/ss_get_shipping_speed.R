@@ -12,7 +12,7 @@ ss_get_shipping_speed <- function(start_date = Sys.Date(), end_date = Sys.Date()
   # overall
   out1 <- shipments %>%
     dplyr::mutate(
-      diff = as.numeric(difftime(createDate, lag(createDate), units = "secs")),
+      diff = as.numeric(difftime(createDate, dplyr::lag(createDate), units = "secs")),
       diff = ifelse(diff > 60*30, NA, diff)
     ) %>%
     dplyr::summarize(
@@ -27,7 +27,7 @@ ss_get_shipping_speed <- function(start_date = Sys.Date(), end_date = Sys.Date()
     dplyr::left_join(users, by = "userId") %>%
     dplyr::group_by(name) %>%
     dplyr::mutate(
-      diff = as.numeric(difftime(createDate, lag(createDate), units = "secs")),
+      diff = as.numeric(difftime(createDate, dplyr::lag(createDate), units = "secs")),
       diff = ifelse(diff > 60*30, NA, diff)                                      # ignore lags over 30 minutes (breaktime?)
     ) %>%
     dplyr::summarize(
