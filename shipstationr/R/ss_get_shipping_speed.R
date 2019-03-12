@@ -37,11 +37,13 @@ ss_get_shipping_speed <- function(start_date = Sys.Date(),
       shipments = dplyr::n(),
       avg = mean(diff, na.rm = TRUE),
       recent = mean(tail(diff, 10), na.rm = TRUE)
-    )
+    ) %>%
+    dplyr::arrange(desc(shipments))
   
   # plot time-series
   if (show_plot) {
     require(ggplot2)
+    end_of_day <- as.POSIXct(paste(unique(lubridate::as_date(shipments$createDate)), "16:30:00 EDT"))
     g1 <- shipments %>%
       dplyr::left_join(users, by = "userId") %>%
       dplyr::group_by(lubridate::date(createDate), name) %>%
@@ -49,11 +51,17 @@ ss_get_shipping_speed <- function(start_date = Sys.Date(),
         count = dplyr::row_number()
       ) %>%
       ggplot(aes(x = createDate, y = count, group = name, color = name)) +
-      geom_point() +
+      geom_point(size = .5) +
+      geom_vline(xintercept = end_of_day, linetype = "dashed") +
       labs(x = NULL, y = "Total Shipped", color = NULL) +
       theme_bw()
     print(g1)
   }
   
-  dplyr::bind_rows(out2, out1)
+  #dplyr::bind_rows(out2, out1)
+  list(
+    overall = out1,
+    by_user = out2,
+    plot = g1
+  )
 }
