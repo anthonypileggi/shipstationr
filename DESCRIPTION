@@ -1,12 +1,19 @@
 Package: shipstationr
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Title: Use the ShipStation API
+Version: 0.1.0.9000
+Authors@R: c(
+    person("Anthony", "Pileggi", , "apileggi20@gmail.com", c("aut", "cre"))
+    )
+Description: Access your data using the ShipStation API
+License: MIT + file LICENSE
+URL: https://github.com/anthonypileggi/shipstationr
+BugReports: https://github.com/anthonypileggi/shipstationr/issues
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
+Imports:
+    magrittr,
+    dplyr,
+    purrr,
+    tidyr
