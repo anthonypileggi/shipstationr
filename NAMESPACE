@@ -2,6 +2,7 @@
 
 export(ss_api)
 export(ss_get_orders)
+export(ss_get_shipment_details)
 export(ss_get_shipments)
 export(ss_get_shipping_speed)
 export(ss_get_single_item_shipping_weights)
