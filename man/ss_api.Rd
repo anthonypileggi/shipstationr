@@ -4,10 +4,12 @@
 \alias{ss_api}
 \title{Make a ShipStation API call}
 \usage{
-ss_api(path, ...)
+ss_api(path, fun = httr::GET, ...)
 }
 \arguments{
 \item{path}{path to api endpoint}
+
+\item{fun}{API function (GET or POST)}
 }
 \description{
 Make a ShipStation API call
