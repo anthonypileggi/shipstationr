@@ -4,10 +4,12 @@
 #' @param end_date last day of data (Date/scalar)
 #' @export
 ss_get_orders <- function(order_number = NULL, start_date = Sys.Date() - 1, end_date = Sys.Date()) {
-  
-  if (!is.null(order_number))
-    start_date <- end_date <- NULL
-  
+
+  if (!is.null(order_number)) {
+    start_date <- as.Date("2000-01-01")
+    end_date <- Sys.Date() + 10
+  }
+
   # query api, iterating over all pages
   go <- TRUE
   pg <- 0
@@ -27,9 +29,9 @@ ss_get_orders <- function(order_number = NULL, start_date = Sys.Date() - 1, end_
     if (x$page >= x$pages)
       go <- FALSE
   }
-  
+
   # TODO: convert 'items' to nested tibble
-  
+
   # clean-up api response
   dplyr::mutate(
     ss_parse_response(out),
