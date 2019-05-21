@@ -21,8 +21,10 @@ ss_mark_as_shipped <- function(orderid,
     stop("Could not find a matching order!")
 
   # confirm it is not yet shipped (or has no tracking)
-  if (order$orderStatus != "awaiting_shipment")
-    stop(paste("Order #", orderid, "does not need to be shipped!"))
+  if (order$orderStatus != "awaiting_shipment") {
+    message(paste("Order #", orderid, "does not need to be shipped!"))
+    return(invisible())
+  }
 
   # mark as shipped
   ss_api(
