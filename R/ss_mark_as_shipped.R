@@ -17,7 +17,7 @@ ss_mark_as_shipped <- function(orderid,
   # load order infomartion
   message(paste("Loading info for order #", orderid))
   order <- ss_get_orders(orderid)
-  if (nrow(order) != 1)
+  if (is.null(order) || nrow(order) != 1)
     stop("Could not find a matching order!")
 
   # confirm it is not yet shipped (or has no tracking)
