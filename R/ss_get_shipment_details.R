@@ -13,7 +13,7 @@ ss_get_shipment_details <- function(start_date = Sys.Date() - 7, end_date = Sys.
     dplyr::select(orderKey, name, createDate, shipDate, shipmentCost, shipTo, serviceCode) %>%
     dplyr::arrange(desc(shipmentCost)) %>%
     dplyr::left_join(
-      dplyr::select(orders, orderKey, items),
+      dplyr::select(orders, orderKey, items, shippingPaid = shippingAmount),
       by = "orderKey"
     ) %>%
     dplyr::mutate(
@@ -22,7 +22,7 @@ ss_get_shipment_details <- function(start_date = Sys.Date() - 7, end_date = Sys.
       shipTo = purrr::map_chr(shipTo, ~paste(.x$state, .x$country, sep = ", ")),
       Sku = purrr::map(items, ~paste0(.x$sku, " (", .x$quantity, ")")),
       Sku = purrr::map_chr(Sku, ~paste0(sort(.x), collapse = ", ")),
-      is_priority = serviceCode %in% c("ups_2nd_day_air")
+      is_priority = shippingPaid > 0
     ) %>%
     dplyr::select(-items)
 }
