@@ -39,12 +39,9 @@ ss_get_orders <- function(order_number = NULL, start_date = Sys.Date() - 1, end_
   }
 
   # clean-up api response
-  dplyr::mutate(
+  dplyr::mutate_at(
     ss_parse_response(out),
-    orderDate = as.POSIXct(strptime(orderDate, "%Y-%m-%dT%H:%M:%OS"), tz = "US/Pacific"),
-    orderDate = lubridate::with_tz(orderDate, tzone = Sys.timezone()),
-    createDate = as.POSIXct(strptime(createDate, "%Y-%m-%dT%H:%M:%OS"), tz = "US/Pacific"),
-    createDate = lubridate::with_tz(createDate, tzone = Sys.timezone())
-    #shipDate = as.Date(shipDate)
+    dplyr::vars(orderDate, orderDate, createDate, paymentDate, modifyDate),
+    ss_parse_datetime
   )
 }
