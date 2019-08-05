@@ -3,7 +3,9 @@
 #' @param start_date first day of data (Date/scalar)
 #' @param end_date last day of data (Date/scalar)
 #' @export
-ss_get_orders <- function(order_number = NULL, start_date = Sys.Date() - 1, end_date = Sys.Date()) {
+ss_get_orders <- function(order_number = NULL,
+                          start_date = Sys.Date() - 1,
+                          end_date = Sys.Date()) {
 
   if (!is.null(order_number)) {
     start_date <- as.Date("2000-01-01")
@@ -18,8 +20,8 @@ ss_get_orders <- function(order_number = NULL, start_date = Sys.Date() - 1, end_
     pg <- pg + 1
     x <- ss_api("orders",
       orderNumber = order_number,
-      createDateStart = paste(start_date - 1, "21:00:00"),     # TODO: adjust start/end_date so align with {local} timezone
-      createDateEnd = paste(end_date, "20:59:59"),
+      orderDateStart = paste(start_date - 1, "21:00:00"),     # TODO: adjust start/end_date so align with {local} timezone
+      orderDateEnd = paste(end_date, "20:59:59"),
       pageSize = 500,
       page = pg
     )
