@@ -4,13 +4,13 @@
 #' @importFrom magrittr "%>%"
 #' @export
 ss_get_single_item_shipping_weights <- function(start_date = Sys.Date() - 7, end_date = Sys.Date() - 1) {
-  
+
   # TODO: add 'dimensions'
-  
+
   # get total weights (lbs) for all recent shipments
   shipments <- ss_get_shipments(start_date = start_date, end_date = end_date) %>%
     dplyr::select(orderNumber, weight, shipmentCost, packageCode) %>%
-    tidyr::unnest() %>%
+    tidyr::unnest(weight) %>%
     dplyr::mutate(
       value = dplyr::case_when(
         units == "ounces" ~ value / 16,
@@ -23,12 +23,12 @@ ss_get_single_item_shipping_weights <- function(start_date = Sys.Date() - 7, end
   ss_get_orders(start_date = start_date - 1, end_date = end_date + 1) %>%
     dplyr::mutate(n_items = purrr::map_int(items, nrow)) %>%
     dplyr::filter(
-      n_items == 1, 
+      n_items == 1,
       orderStatus == "shipped",
       orderNumber %in% shipments$orderNumber
       ) %>%
     dplyr::select(orderNumber, items) %>%
-    tidyr::unnest() %>%
+    tidyr::unnest(items) %>%
     dplyr::mutate(
       value = dplyr::case_when(
         units == "ounces" ~ value / 16,
