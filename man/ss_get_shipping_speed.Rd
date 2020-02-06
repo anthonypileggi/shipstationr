@@ -4,8 +4,11 @@
 \alias{ss_get_shipping_speed}
 \title{Get shipping speed (overall; user-specific)}
 \usage{
-ss_get_shipping_speed(start_date = Sys.Date(), end_date = Sys.Date(),
-  show_plot = TRUE)
+ss_get_shipping_speed(
+  start_date = Sys.Date(),
+  end_date = Sys.Date(),
+  show_plot = TRUE
+)
 }
 \arguments{
 \item{start_date}{first day of data (Date/scalar)}

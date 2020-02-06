@@ -4,8 +4,7 @@
 \alias{ss_get_shipment_details}
 \title{Get recent shipment info/details}
 \usage{
-ss_get_shipment_details(start_date = Sys.Date() - 7,
-  end_date = Sys.Date() - 1)
+ss_get_shipment_details(start_date = Sys.Date() - 7, end_date = Sys.Date() - 1)
 }
 \description{
 Get recent shipment info/details

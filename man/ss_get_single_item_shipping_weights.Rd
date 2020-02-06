@@ -4,8 +4,10 @@
 \alias{ss_get_single_item_shipping_weights}
 \title{Estimate product weights based on shipping weights for recent single-item orders}
 \usage{
-ss_get_single_item_shipping_weights(start_date = Sys.Date() - 7,
-  end_date = Sys.Date() - 1)
+ss_get_single_item_shipping_weights(
+  start_date = Sys.Date() - 7,
+  end_date = Sys.Date() - 1
+)
 }
 \arguments{
 \item{start_date}{first day of data (Date/scalar)}

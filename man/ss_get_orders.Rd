@@ -4,8 +4,11 @@
 \alias{ss_get_orders}
 \title{Call the ShipStation Orders API}
 \usage{
-ss_get_orders(order_number = NULL, start_date = Sys.Date() - 1,
-  end_date = Sys.Date())
+ss_get_orders(
+  order_number = NULL,
+  start_date = Sys.Date() - 1,
+  end_date = Sys.Date()
+)
 }
 \arguments{
 \item{order_number}{Order Number (integer/vector)}

@@ -4,8 +4,14 @@
 \alias{ss_mark_as_shipped}
 \title{Mark orders as shipped and add tracking info}
 \usage{
-ss_mark_as_shipped(orderid, carrier, tracking, ship_date,
-  notify_customer = FALSE, notify_channel = TRUE)
+ss_mark_as_shipped(
+  orderid,
+  carrier,
+  tracking,
+  ship_date,
+  notify_customer = FALSE,
+  notify_channel = TRUE
+)
 }
 \arguments{
 \item{orderid}{OrderId}
