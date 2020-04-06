@@ -4,12 +4,18 @@
 \alias{ss_get_rates}
 \title{Get shipping rates for ALL carriers for a given order}
 \usage{
-ss_get_rates(order_number = "3023035", carriers = c("stamps_com", "ups"))
+ss_get_rates(
+  order_number = "3023035",
+  carriers = c("stamps_com", "ups", "fedex", "amazon_shipping", "amazon_shipping_us"),
+  speed = c("standard", "2day", "1day")
+)
 }
 \arguments{
 \item{order_number}{order number (numeric/scalar)}
 
 \item{carriers}{carriers (character/vector)}
+
+\item{speed}{shipping speed (character/scalar)}
 }
 \description{
 Get shipping rates for ALL carriers for a given order
