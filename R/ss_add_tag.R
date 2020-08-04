@@ -12,7 +12,7 @@ ss_add_tag <- function(order_number = NULL, tag_id = NULL) {
   # get orderId for the specified order
   order <- shipstationr::ss_get_orders(order_number = order_number)
 
-  if (nrow(order) == 1) {
+  if (!is.null(order) && nrow(order) == 1) {
     out <-
       shipstationr::ss_api(
         path = "orders/addtag",
